@@ -25,3 +25,16 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+##################################################################
+# THIS PACKAGE IS BOTH THE SERVER AND CLIENT                     #
+##################################################################
+
+IF YOU ONLY ENTER
+
+NG SERVE
+
+YOU WILL ONLY BE RUNNING THE CLIENT SIDE AND WILL NOT SEE ANYTHING.  TO FIX THIS GO INTO THE ./SRC/SERVER FOLDER AND IN A NEW WINDOW TYPE IN NODE SERVER.JS
+
+THEN GO TO LOCALHOST:4200 FOR THE ACTUAL CLIENT/SERVER APP
+
