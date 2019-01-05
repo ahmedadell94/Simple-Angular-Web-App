@@ -1,0 +1,8 @@
+This is a simple Client/Server app which showcases Angular as a front end client, and Node + Express + Sequelize as a backend using Postgresql as the database.
+
+You will need postgresql installed, or if you are using a different database you will need to change some code around.
+
+THE APP:
+
+Create a table called customers automatically upone initialization of the server and fills it with object.
+When you run the client it will speak to the server.
