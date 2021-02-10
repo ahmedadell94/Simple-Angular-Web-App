@@ -16,8 +16,8 @@ executors:
 
 
 jobs:
-########CI #########
-  install:
+
+  install-dependencies:
     executor: node
     steps:
     - checkout
@@ -53,8 +53,7 @@ jobs:
           name: Run tests with JUnit as reporter
           working_directory: .
           command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit && pwd && ls -la /tmp
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./test_results
+
       - store_test_results:
           path: ./test_results
       - store_artifacts:
@@ -69,21 +68,30 @@ jobs:
       - run:
           name: Check  against security vulnerabilities
           working_directory: .
-          command: npm audit 
+          command: npm audit --audit-level=critical
+  create_infrastructure:
+    executor: aws
+    steps:
+      - checkout
+      - run:
+          name: deploy  infrastructure 
+          command:  aws s3 sync ./build s3://devops-project-376567756429
   
 
 workflows:
   
   project:
     jobs:
-      - install
+      - install-dependencies
       - build:
           requires:
-            - install
+            - install-dependencies
       - test:
           requires:
             - build
       - analyze:
           requires:
             - build
+      - create_infrastructure
+
       
