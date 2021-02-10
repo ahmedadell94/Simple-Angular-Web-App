@@ -1,0 +1,19 @@
+version: 2.1
+jobs:
+    install:
+      docker:
+        - image: circleci/node:13.8.0
+      steps:
+      - checkout
+      - run:
+          docker build -t img:01 /home/circleci/.
+      - persist_to_workspace:
+          root: .
+          paths:
+            - project/node_modules
+
+workflows:
+
+  project:
+    jobs:
+      - install
