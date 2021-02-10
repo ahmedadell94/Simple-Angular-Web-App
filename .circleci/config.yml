@@ -4,6 +4,9 @@ executors:
   node:
     docker:
       - image: ocircleci/node:13.8.0
+        auth:
+          username: $DOCKERHUB_USERNAME  
+          password: $DOCKERHUB_PASSWORD 
   aws:
     docker:
       - image: amazon/aws-cli
