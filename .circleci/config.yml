@@ -11,3 +11,9 @@ jobs:
           root: .
           paths:
             - project/node_modules
+
+workflows:
+
+  project:
+    jobs:
+      - install
