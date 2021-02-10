@@ -76,7 +76,7 @@ workflows:
       - install
       - build:
           requires:
-            install
+            - install
       - test:
           requires:
             - build
