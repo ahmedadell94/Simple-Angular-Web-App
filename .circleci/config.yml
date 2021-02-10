@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node:
     docker:
-      - image: circleci/node:13.8.0
+      - image: okode/angular@1.0.115
   aws:
     docker:
       - image: amazon/aws-cli
@@ -33,7 +33,7 @@ jobs:
       - attach_workspace:
           at: ./project
       - run:
-          name: npm run build
+          name: ng build
           working_directory: ./project
           command: npm run build
   test:
@@ -62,7 +62,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: ./project
       - run:
           name: Check  against security vulnerabilities
           working_directory: ./project
