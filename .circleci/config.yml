@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node:
     docker:
-      - image: okode/angular@1.0.115
+      - image: ocircleci/node:13.8.0
   aws:
     docker:
       - image: amazon/aws-cli
@@ -19,9 +19,9 @@ jobs:
     steps:
     - checkout
     - run:
-        name: npm install
+        name: npm install and anguler
         working_directory: ./project
-        command: ls -la && npm install
+        command: ls -la && npm install && npm install -g angular-cli
     - persist_to_workspace:
         root: ./project
         paths:
