@@ -93,6 +93,8 @@ jobs:
               --template-body file://template.yml \
               --stack-name prod-${CIRCLE_WORKFLOW_ID} \
               --region=us-east-1
+
+
   
   configure_infrastructure:
     executor: python
@@ -102,11 +104,22 @@ jobs:
           fingerprints: ["fa:dd:dd:92:44:6b:af:72:17:6f:7e:c7:80:93:d2:f1"] 
       - attach_workspace:
           at: .
+      - run : 
+          name: copy application to server
+          command: |
+            cd /home
+            git clone $GITHUBPATH
+            cd $APPNAME
       - run:
           name: Install dependencies
           working_directory: .
           command: |
-            npm install -g angular-cli && ng serve
+            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            sudo npm install npm@latest -g  
+            npm install -g angular-cli 
+            ng serve
+
 
 
      # - destroy_environment:      ####RollBack#####
