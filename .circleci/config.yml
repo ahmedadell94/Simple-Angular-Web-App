@@ -1,0 +1,11 @@
+version: 2.1
+jobs:
+    install:
+      steps:
+      - checkout
+      - run:
+          docker build img:01 .
+      - persist_to_workspace:
+          root: .
+          paths:
+            - project/node_modules
