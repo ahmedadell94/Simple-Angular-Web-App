@@ -90,9 +90,10 @@ jobs:
           name: deploy  infrastructure 
           command: |
             aws cloudformation create-stack \
-              --template-body file://template.yml \
-              --stack-name prod-${CIRCLE_WORKFLOW_ID} \
-              --region=us-east-1
+            --template-body file://template.yml \
+            --stack-name prod-${CIRCLE_WORKFLOW_ID} \
+            --parameters file://parameters.yml \
+            --region=us-east-1
 
 
   
