@@ -27,7 +27,7 @@ jobs:
         command:  ls -la && npm install 
     - persist_to_workspace:
         root: .
-         paths:
+        paths:
           - ./node_modules
   build:
     executor: node
