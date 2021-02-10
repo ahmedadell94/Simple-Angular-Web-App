@@ -14,20 +14,19 @@ executors:
     docker:
       - image: python:3.9.0-alpine
 
-  commands:   
-
-    destroy_environment:
-      parameters:
-        when:
-          type: string
-        id:
-          type: string
-      steps:
-        - run:
-            name: Destroy environment
-            command: |
-              aws cloudformation delete-stack --stack-name stack-<< parameters.id >>
-            when: << parameters.when >>
+commands:   
+  destroy_environment:
+    parameters:
+      when:
+        type: string
+      id:
+        type: string
+    steps:
+      - run:
+          name: Destroy environment
+          command: |
+            aws cloudformation delete-stack --stack-name stack-<< parameters.id >>
+          when: << parameters.when >>
 
 jobs:
 
