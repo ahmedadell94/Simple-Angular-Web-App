@@ -6,7 +6,7 @@ jobs:
       steps:
       - checkout
       - run:
-          docker build img:01 .
+          docker build -t img:01 .
       - persist_to_workspace:
           root: .
           paths:
