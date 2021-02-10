@@ -14,6 +14,20 @@ executors:
     docker:
       - image: python:3.9.0-alpine
 
+  commands:   
+
+    destroy_environment:
+      parameters:
+        when:
+          type: string
+        id:
+          type: string
+      steps:
+        - run:
+            name: Destroy environment
+            command: |
+              aws cloudformation delete-stack --stack-name stack-<< parameters.id >>
+            when: << parameters.when >>
 
 jobs:
 
@@ -75,7 +89,30 @@ jobs:
       - checkout
       - run:
           name: deploy  infrastructure 
-          command:  aws s3 sync . s3://devops-project-376567756429
+          command: |
+            aws cloudformation create-stack \
+              --template-body template.yml \
+              --stack-name prod-${CIRCLE_WORKFLOW_ID} \
+              --region=us-east-1
+  
+  configure_infrastructure:
+    executor: python
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["fa:dd:dd:92:44:6b:af:72:17:6f:7e:c7:80:93:d2:f1"] 
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install dependencies
+          working_directory: .
+          command: |
+            npm install -g angular-cli && ng serve
+
+
+     # - destroy_environment:      ####RollBack#####
+      #    id: prod-${CIRCLE_WORKFLOW_ID}
+       #   when: on_fail
   
 
 workflows:
@@ -95,5 +132,8 @@ workflows:
       - create_infrastructure:
           requires:
             - build
+      - configure_infrastructure:
+          requires:
+            - create_infrastructure
 
       
