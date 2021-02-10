@@ -75,7 +75,7 @@ jobs:
       - checkout
       - run:
           name: deploy  infrastructure 
-          command:  aws s3 sync ./build s3://devops-project-376567756429
+          command:  aws s3 sync . s3://devops-project-376567756429
   
 
 workflows:
