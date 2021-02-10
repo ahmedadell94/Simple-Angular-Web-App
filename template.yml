@@ -9,10 +9,6 @@ Resources:
       KeyName: devops
       ImageId: 'ami-03d315ad33b9d49c4'
       InstanceType: t2.micro
-    BlockDeviceMappings:
-    - DeviceName: "/dev/sdk"
-      Ebs:
-        VolumeSize: '10'
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
