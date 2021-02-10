@@ -1,19 +1,123 @@
 version: 2.1
-jobs:
-    install:
-      docker:
-        - image: circleci/node:13.8.0
-      steps:
-      - checkout
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:13.8.0
+  aws:
+    docker:
+      - image: amazon/aws-cli
+  python:
+    docker:
+      - image: python:3.9.0-alpine
+
+commands:   
+  print_pipeline_id:
+    steps:
+      - run: echo $CIRCLE_WORKFLOW_ID
+  destroy_environment:
+    parameters:
+      when:
+        type: string
+      id:
+        type: string
+    steps:
       - run:
-          docker build -t img:01 .
-      - persist_to_workspace:
-          root: .
-          paths:
-            - project/node_modules
+          name: Destroy environment
+          command: |
+            aws cloudformation delete-stack --stack-name stack-<< parameters.id >>
+          when: << parameters.when >>
+  revert_migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      when:
+        type: string
+      id:
+        type: string
+    steps:
+      - run:
+          name: Revert migrations
+          working_directory: ./project
+          command: |
+            SUCCESS=$(curl -H "token: 2a9e15d6-b9fa-4b1f-a5dc-e3b9643a9b63" --request GET https://api.memstash.io/values/DB_MIGRATION_<< parameters.id >>)
+            echo $SUCCESS
+            if [[ "$SUCCESS" == "success" ]]
+            then
+              pwd
+              ls -la
+              npm run migrations:revert
+            fi
+          when: << parameters.when >>
+
+jobs:
+########CI #########
+  install:
+    executor: node
+    steps:
+    - checkout
+    - run:
+        name: npm install
+        working_directory: ./project
+        command: ls -la && npm install
+    - persist_to_workspace:
+        root: ./project
+        paths:
+          - project/node_modules
+  build:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./project
+      - run:
+          name: npm run build
+          working_directory: ./project
+          command: npm run build
+  test:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./project
+      - run:
+          name: Install junit coverage reporter
+          working_directory: ./project
+          command: npm install --save-dev jest-junit
+      - run:
+          name: Run tests with JUnit as reporter
+          working_directory: ./project
+          command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit && pwd && ls -la /tmp
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./test_results
+      - store_test_results:
+          path: ./project/test_results
+      - store_artifacts:
+          path: ./project/test_results
+
+  analyze:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Check  against security vulnerabilities
+          working_directory: ./project
+          command: npm audit --audit-level=critical
+  
 
 workflows:
-
+  
   project:
     jobs:
       - install
+      - build:
+          requires:
+            install
+      - test:
+          requires:
+            - build
+      - analyze:
+          requires:
+            - build
+      
