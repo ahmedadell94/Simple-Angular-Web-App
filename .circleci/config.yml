@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Check  against security vulnerabilities
           working_directory: .
-          command: npm audit --audit-level=critical
+          command: npm audit 
   
 
 workflows:
