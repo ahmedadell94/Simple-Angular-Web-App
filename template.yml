@@ -12,7 +12,7 @@ Resources:
     BlockDeviceMappings:
     - DeviceName: "/dev/sdk"
       Ebs:
-      VolumeSize: '10'
+        VolumeSize: '10'
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
