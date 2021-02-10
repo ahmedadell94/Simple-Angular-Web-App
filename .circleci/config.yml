@@ -24,7 +24,7 @@ jobs:
     - run:
         name: npm install 
         working_directory: ./project
-        command: ls -la && npm install 
+        command: npm install ng-circle-progress --save && ls -la && npm install $$  
     - persist_to_workspace:
         root: ./project
         paths:
