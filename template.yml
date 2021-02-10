@@ -1,11 +1,18 @@
+Description: >
+    Ahmed Adel Mahmoud
 Resources:
   Ec2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
-      KeyName: udacity
-      ImageId: 'ami-068663a3c619dd892'
+      KeyName: devops
+      ImageId: 'ami-03d315ad33b9d49c4'
+      InstanceType: t2.micro
+    BlockDeviceMappings:
+    - DeviceName: "/dev/sdk"
+      Ebs:
+      VolumeSize: '10'
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
