@@ -28,7 +28,7 @@ jobs:
     - persist_to_workspace:
         root: .
         paths:
-          - project/node_modules
+          - ./node_modules
   build:
     executor: node
     steps:
