@@ -92,6 +92,8 @@ workflows:
       - analyze:
           requires:
             - build
-      - create_infrastructure
+      - create_infrastructure:
+          requires:
+            - build
 
       
