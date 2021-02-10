@@ -48,7 +48,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      vpc_subnet_id: !Ref PublicSubnet1
+      SubnetId: !Ref PublicSubnet1
       SecurityGroups:
         - !Ref InstanceSecurityGroup
       KeyName: devops
