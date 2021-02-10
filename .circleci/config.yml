@@ -38,7 +38,7 @@ jobs:
       - run:
           name: ng build
           working_directory: .
-          command: npm run build
+          command: ng build
   test:
     executor: node
     steps:
