@@ -26,7 +26,7 @@ commands:
           name: Destroy environment
           command: |
             aws cloudformation delete-stack --stack-name prod-<< parameters.id >>
-          when: on_fail
+          when: << parameters.when >>
 
 jobs:
 
@@ -179,7 +179,7 @@ workflows:
           requires:
             - create_infrastructure
       - smoke_test:
-          reuires:
+          requires:
             - test
             - build
             - create_infrastructure
