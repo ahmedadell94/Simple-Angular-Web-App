@@ -93,9 +93,24 @@ jobs:
             --template-body file://template.yml \
             --stack-name prod-${CIRCLE_WORKFLOW_ID} \
             --parameters file://parameters.yml \
+            --tags project=devops-${CIRCLE_WORKFLOW_ID} \
             --region=us-east-1
-
-
+      - run:
+          name: Add instance ip to ansible inventory
+          working_directory: ./.circleci/ansible
+          command: |
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=devops-${CIRCLE_WORKFLOW_ID}" \
+              --output text > inventory
+            cat inventory
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .circleci/ansible/inventory
+      - destroy_environment:
+          id: prod-${CIRCLE_WORKFLOW_ID}
+          when: on_fail 
   
   configure_infrastructure:
     executor: python
@@ -105,27 +120,42 @@ jobs:
           fingerprints: ["fa:dd:dd:92:44:6b:af:72:17:6f:7e:c7:80:93:d2:f1"] 
       - attach_workspace:
           at: .
-      - run : 
-          name: copy application to server
-          command: |
-            cd /home
-            git clone $GITHUBPATH
-            cd $APPNAME
       - run:
           name: Install dependencies
+          working_directory: ./.circleci/ansible
+          command: |
+            apk add --update ansible
+            ansible --version
+      - run:
+          name: Configure server
+          working_directory: ./.circleci/ansible
+          command: ansible-playbook -i inventory configure.yaml
+      - run: 
+          name: run application 
+          working_directory: ./.circleci/ansible
+          command: ansible all -m command -a 'sudo ng serve' 
+      - destroy_environment:
+          id: prod-${CIRCLE_WORKFLOW_ID}
+          when: on_fail
+
+  smoke_test:
+    executor: python
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: sudo apk add --update curl npm
+      - run:
+          name: smoke test
           working_directory: .
           command: |
-            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-            sudo npm install npm@latest -g  
-            npm install -g angular-cli 
-            ng serve
+            IP= ` cat inventory`
+            export URL="http://$IP:4200"
+            curl "$URL"
+      - destroy_environment:
+           id: prod-${CIRCLE_WORKFLOW_ID}
+           when: on_fail
 
-
-
-     # - destroy_environment:      ####RollBack#####
-      #    id: prod-${CIRCLE_WORKFLOW_ID}
-       #   when: on_fail
   
 
 workflows:
@@ -148,5 +178,13 @@ workflows:
       - configure_infrastructure:
           requires:
             - create_infrastructure
+      - smoke_test:
+          reuires:
+            - test
+            - build
+            - create_infrastructure
+            - analyze
+            - configure_infrastructure
+
 
       
