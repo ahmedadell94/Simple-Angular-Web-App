@@ -37,7 +37,7 @@ jobs:
     - run:
         name: npm install 
         working_directory: .
-        command:  ls -la && npm install  && npm install tar
+        command:  ls -la && npm install 
     - persist_to_workspace:
         root: .
         paths:
@@ -86,6 +86,9 @@ jobs:
     executor: aws
     steps:
       - checkout
+      - run:
+        name: Install dependencies
+        command: yum install -y tar gzip
       - run:
           name: deploy  infrastructure 
           command: |
