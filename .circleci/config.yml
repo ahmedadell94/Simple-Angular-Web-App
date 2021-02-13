@@ -132,7 +132,7 @@ jobs:
       - run:
           name: Configure server
           working_directory: ./.circleci/ansible
-          command: ansible-playbook -i inventory configure.yaml
+          command: ansible-playbook -i inventory configuration.yaml
       - run: 
           name: run application 
           working_directory: ./.circleci/ansible
