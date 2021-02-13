@@ -87,8 +87,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Install dependencies
-        command: yum install -y tar gzip
+          name: Install dependencies
+          command: yum install -y tar gzip
       - run:
           name: deploy  infrastructure 
           command: |
