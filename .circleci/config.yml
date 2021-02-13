@@ -37,7 +37,7 @@ jobs:
     - run:
         name: npm install 
         working_directory: .
-        command:  ls -la && npm install 
+        command:  ls -la && npm install  && npm install tar
     - persist_to_workspace:
         root: .
         paths:
