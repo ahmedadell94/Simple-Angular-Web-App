@@ -82,6 +82,9 @@ jobs:
           name: Check  against security vulnerabilities
           working_directory: .
           command: npm audit --audit-level=critical
+        - destroy_environment:
+            id: ${CIRCLE_WORKFLOW_ID}
+            when: on_fail
   create_infrastructure:
     executor: aws
     steps:
@@ -91,6 +94,7 @@ jobs:
           command: yum install -y tar gzip
       - run:
           name: deploy  infrastructure 
+          working_directory: ./.circleci/ansible
           command: |
             aws cloudformation create-stack \
             --template-body file://template.yml \
@@ -100,7 +104,7 @@ jobs:
             --region=us-east-1
       - run:
           name: sleep until stack complete finished
-          command: sleep 240
+          command: sleep 180
       - run:
           name: Add instance ip to ansible inventory
           working_directory: ./.circleci/ansible
