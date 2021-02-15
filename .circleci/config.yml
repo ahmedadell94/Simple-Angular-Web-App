@@ -115,7 +115,6 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID}
           when: on_fail 
   
-  
   configure_infrastructure:
     executor: python
     steps:
@@ -176,9 +175,7 @@ workflows:
       - analyze:
           requires:
             - build
-      - create_infrastructure:
-          requires:
-            - build
+      - create_infrastructure
       - configure_infrastructure:
           requires:
             - create_infrastructure
@@ -186,8 +183,8 @@ workflows:
           requires:
             - test
             - build
-            - create_infrastructure
             - analyze
+            - create_infrastructure
             - configure_infrastructure
 
 
