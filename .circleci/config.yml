@@ -126,6 +126,9 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["fa:dd:dd:92:44:6b:af:72:17:6f:7e:c7:80:93:d2:f1"] 
+      - run:
+          name: Install dependencies
+          command: yum install -y tar gzip    
       - attach_workspace:
           at: .
       - run:
