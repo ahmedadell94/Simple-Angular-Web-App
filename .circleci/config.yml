@@ -132,16 +132,18 @@ jobs:
           name: Install dependencies
           working_directory: ./.circleci/ansible
           command: |
-            apk add --update ansible
+
+            sudo apt install ansible 
             ansible --version
       - run:
           name: Configure server
           working_directory: ./.circleci/ansible
-          command: ansible-playbook -i inventory configuration.yml
+          command: ansible-playbook -i inventory configuration.yml -b
+          
       - run: 
           name: run application 
           working_directory: ./.circleci/ansible
-          command: ansible all -m command -a 'sudo ng serve' 
+          command: ansible all -m command -a 'cd $CIRCLE_PROJECT_REPONAME  && sudo ng serve' 
       - destroy_environment:
           id: ${CIRCLE_WORKFLOW_ID}
           when: on_fail
@@ -152,14 +154,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: sudo apk add --update curl npm
+      - run: sudo apt add --update curl npm
       - run:
           name: smoke test
           working_directory: .
-          command: |
-            IP= ` cat inventory`
-            export URL="http://$IP:4200"
-            curl "$URL"
+          command: ansible all -m command -a 'curl http://localhost:4200' 
       - destroy_environment:
            id: ${CIRCLE_WORKFLOW_ID}
            when: on_fail
