@@ -142,14 +142,14 @@ jobs:
           command: |
             apk add --update ansible
 
-      - run:
-          name: Configure server
-          working_directory: ./.circleci/ansible
-          command: |
-          pwd &&
-          ls -la
-          cat inventory
-          ansible-playbook -i inventory configuration.yml
+   #   - run:
+   #       name: Configure server
+   #       working_directory: ./.circleci/ansible
+   #       command: |
+   #       pwd &&
+   #       ls -la
+   #       cat inventory
+   #       ansible-playbook -i inventory configuration.yml
           
       - run: 
           name: run application 
