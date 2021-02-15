@@ -132,8 +132,6 @@ jobs:
           name: Install dependencies
           working_directory: ./.circleci/ansible
           command: |
-
-            sudo apt install ansible 
             ansible --version
       - run:
           name: Configure server
