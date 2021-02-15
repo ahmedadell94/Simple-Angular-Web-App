@@ -9,7 +9,7 @@
         - ansible_stdout_callback: yaml
       tasks:
 
-        - name: "update apt packages."
+      - name: "update apt packages."
         become: yes
         apt:
           update_cache: yes
