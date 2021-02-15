@@ -129,11 +129,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Install dependencies
-          working_directory: ./.circleci/ansible
-          command: |
-            ansible --version
-      - run:
           name: Configure server
           working_directory: ./.circleci/ansible
           command: ansible-playbook -i inventory configuration.yml -b
