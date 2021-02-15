@@ -100,7 +100,7 @@ jobs:
             --region=us-east-1
       - run:
           name: sleep until stack complete finished
-          command: sleep 60
+          command: sleep 240
       - run:
           name: Add instance ip to ansible inventory
           working_directory: ./.circleci/ansible
