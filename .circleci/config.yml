@@ -131,11 +131,11 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-        name: Install AWS CLI dependencies
-        working_directory: /tmp
-        command: |
-          pip install awscli
-          aws --version
+          name: Install AWS CLI dependencies
+          working_directory: /tmp
+          command: |
+            pip install awscli
+            aws --version
       - run:
           name: Install dependencies
           command: |
