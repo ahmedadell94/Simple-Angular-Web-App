@@ -83,6 +83,10 @@ Resources:
           sudo git clone https://github.com/ahmedadell94/Simple-Angular-Web-App.git
           curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - 
           sudo apt install ansible -y
+          sudo apt install -y nodejs
+          sudo npm install npm@latest -g
+          sudo npm install -g @angular/cli
+
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
