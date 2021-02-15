@@ -1,8 +1,7 @@
 ---
-    - name: Configure udapeople infrastructure
+    - name: Configure  infrastructure
       hosts: all
       user: ubuntu
-      sudo: yes
       gather_facts: false
       vars:
         - ansible_python_interpreter: /usr/bin/python3
@@ -19,4 +18,3 @@
         - name: install angular 
           npm:
             name: angular-cli      
-            
