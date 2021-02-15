@@ -126,7 +126,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["fa:dd:dd:92:44:6b:af:72:17:6f:7e:c7:80:93:d2:f1"] 
+          fingerprints: ["49:26:50:fa:d0:66:cc:2d:1b:b4:18:ef:62:61:7f:98"] 
    
       - attach_workspace:
           at: .
@@ -154,7 +154,7 @@ jobs:
       - run: 
           name: run application 
           working_directory: ./.circleci/ansible
-          command: ansible all -m command -a 'cd $CIRCLE_PROJECT_REPONAME  && sudo ng serve' 
+          command: ansible all -m command -a 'cd /home/$CIRCLE_PROJECT_REPONAME  && sudo ng serve' 
       - destroy_environment:
           id: ${CIRCLE_WORKFLOW_ID}
           when: on_fail
