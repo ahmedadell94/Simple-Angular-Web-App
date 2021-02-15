@@ -140,9 +140,7 @@ jobs:
       - run:
           name: Install Ansible
           command: |
-          
-            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - 
-            pip install ansible -y
+             pip install ansible -y
       - run:
           name: Configure server
           working_directory: ./.circleci/ansible
