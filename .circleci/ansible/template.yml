@@ -81,7 +81,8 @@ Resources:
           cd /home
           exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
           sudo git clone https://github.com/ahmedadell94/Simple-Angular-Web-App.git
-
+          curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - 
+          sudo apt install ansible -y
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
