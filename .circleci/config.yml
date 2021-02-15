@@ -115,6 +115,7 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID}
           when: on_fail 
   
+  
   configure_infrastructure:
     executor: python
     steps:
