@@ -163,8 +163,14 @@ jobs:
     executor: python
     steps:
       - checkout
+      - run:
+          name: Install AWS CLI dependencies
+          working_directory: /tmp
+          command: |
+            pip install awscli
+            aws --version
       - add_ssh_keys:
-          fingerprints: ["a3:49:f3:9d:12:5e:24:f0:44:f0:2b:05:cf:c8:0a:32"] 
+          fingerprints: ["49:26:50:fa:d0:66:cc:2d:1b:b4:18:ef:62:61:7f:98"] 
  
       - attach_workspace:
           at: .
