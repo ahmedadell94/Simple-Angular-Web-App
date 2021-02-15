@@ -131,8 +131,8 @@ jobs:
           command: |
             yum install -y tar gzip 
             curl -sL https://deb.nodesource.com/setup_12.x 
-            yum install epel-release 
-            yum install ansible -y
+            npm install epel-release 
+            npm install ansible -y
       - attach_workspace:
           at: .
       - run:
