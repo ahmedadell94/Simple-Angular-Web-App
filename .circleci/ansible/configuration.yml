@@ -9,12 +9,31 @@
         - ansible_stdout_callback: yaml
       tasks:
 
-        - name: install  nodejs and npm
-          apt:
-            name: ["nodejs", "npm"]
-            state: latest
-            update_cache: yes
+        - name: "update apt packages."
+        become: yes
+        apt:
+          update_cache: yes
+    
+      - name: "upgrade packages"
+        become: yes
+        apt:
+          upgrade: yes
 
-        - name: install angular 
-          npm:
-            name: angular-cli      
+    
+      - name: "install nodejs and npm"
+        become: yes
+        apt:
+          name: ["nodejs", "npm"]
+          state: latest
+          update_cache: yes
+    
+      - name: "install n"
+        become: yes
+        npm:
+          name: n
+          global: yes
+          production: yes
+    
+      - name: "install nodejs 13.8.0"
+        become: yes
+        shell: n 13.8.0
