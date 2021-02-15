@@ -82,9 +82,7 @@ jobs:
           name: Check  against security vulnerabilities
           working_directory: .
           command: npm audit --audit-level=critical
-        - destroy_environment:
-            id: ${CIRCLE_WORKFLOW_ID}
-            when: on_fail
+
   create_infrastructure:
     executor: aws
     steps:
