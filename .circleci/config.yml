@@ -136,16 +136,13 @@ jobs:
           command: |
             pip install awscli
             aws --version
-      - run:
-          name: Install dependencies
-          command: |
-            yum install -y tar gzip 
+
       - run:
           name: Install Ansible
           command: |
           
             curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - 
-            sudo apt install ansible -y
+            pip install ansible -y
       - run:
           name: Configure server
           working_directory: ./.circleci/ansible
