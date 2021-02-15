@@ -163,6 +163,9 @@ jobs:
     executor: python
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints: ["a3:49:f3:9d:12:5e:24:f0:44:f0:2b:05:cf:c8:0a:32"] 
+ 
       - attach_workspace:
           at: .
       - run: sudo apt add --update curl npm
