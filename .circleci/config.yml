@@ -139,7 +139,8 @@ jobs:
     #        aws --version
       - run:
           name: Build Docker image
-          command: docker build -t NewImage-CI:latest
+          working_directory: ./.circleci
+          command: docker build -t newnmage-ci:latest
       - run:
           name: Install Ansible
           command: |
