@@ -122,7 +122,7 @@ jobs:
           when: on_fail 
   
   configure_infrastructure:
-    executor: python
+    executor: node
 
     steps:
       - checkout
