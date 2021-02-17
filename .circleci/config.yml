@@ -123,7 +123,6 @@ jobs:
   
   configure_infrastructure:
     executor: python
-    docker:
 
     steps:
       - checkout
